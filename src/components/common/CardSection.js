@@ -1,7 +1,7 @@
 /**resuable card section container */
 import React from 'react';
 import { View } from 'react-native';
-
+import { BLUE } from './Colors';
 const CardSection = (props) => {
     const { containerStyle } = styles;
     return (
@@ -15,14 +15,15 @@ export { CardSection };
 
 const styles = {
     containerStyle: {
-     borderWidth: 5,
      paddingHorizontal: 5,
      paddingVertical: 15,
-     justifyContent: 'flex-start',
+     justifyContent: 'center',
      flexDirection: 'row',   
-     borderColor: '#ddd',
+     borderColor: BLUE,
      position: 'relative', 
-     backgroundColor: 'rgba(241, 194, 50, 0.6)'
-    }
+     backgroundColor: BLUE,
+     marginBottom: 1,
+     borderRadius: 2,
+    } 
 };
 

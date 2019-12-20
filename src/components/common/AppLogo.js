@@ -16,8 +16,8 @@ const styles = {
     justifyContent: 'center',
   },
   imageStyle: {
-    flex: 0.5,
-    width: Dimensions.get('window').width-10,
+    flex: 0.64,
+    width: Dimensions.get('window').width,
     height: null,
     resizeMode: 'contain'
   }

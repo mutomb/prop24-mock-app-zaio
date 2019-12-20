@@ -7,4 +7,6 @@ export * from './Spinner';
 export * from './Confirm';
 export * from './AppLogo';
 export * from './ButtonRound';
+export * from './Colors';
+export * from './ModalWithSpinner';
 /**facilitate import of resuable components */

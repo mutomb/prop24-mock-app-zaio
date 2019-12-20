@@ -2,11 +2,10 @@
 import React from 'react';
 import { View, Dimensions} from 'react-native';
 
-const Header = ({ children }) => {
+const Header = ({ children, style }) => {
     const { viewStyle } = styles;
-    console.log(children);
     return (
-        <View style={viewStyle}>
+        <View style={[viewStyle, style]}>
             {children}
         </View>
     );
@@ -18,10 +17,9 @@ const styles = {
     viewStyle: {
         justifyContent: 'center',
         alignItems: 'center',
-        paddingHorizontal: 5,
         paddingVertical: 5,
-        position: 'relative',
-        marginTop: 100,
+        position:'relative',
+        marginTop: 30,
         width: Dimensions.get('window').width,
         height: 100,
     }

@@ -1,13 +1,13 @@
 /**reusable button */
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
+import { RED } from './Colors';
+const Button = ({ onPress, children, style, underlayColor, textStyle }) => {
 
-const Button = ({ onPress, children }) => {
-    const { buttonStyle, textStyle } = styles;
     return (
-        <TouchableHighlight onPress={onPress} underlayColor='#43B2C9' style={buttonStyle}>
+        <TouchableHighlight onPress={onPress} underlayColor={ underlayColor || '#CC0000' } style={[styles.buttonStyle, style]}>
             <View>
-                <Text style={textStyle}>
+                <Text style={[styles.textStyle, textStyle]}>
                 { children}
                 </Text>
             </View>
@@ -20,27 +20,20 @@ export { Button };
 const styles = {
     textStyle: {
         alignSelf: 'center',
-        color: '#000',
+        color: '#fff',
         fontSize: 16,
-        fontWeight: '600',
-        paddingTop: 10,
-        paddingBottom: 10,
+        fontWeight: '900',
+        paddingTop: 5,
+        paddingBottom: 5,
     },
     buttonStyle: {
         flex: 1,
         alignSelf: 'stretch',
-        backgroundColor: '#D56217',
+        backgroundColor: RED,
         borderRadius: 10,
         marginLeft: 5,
         marginRight: 5,
         paddingVertical: 10,
-        shadowColor: '#1FCCFF',
-        shadowOffset: {
-            width: 0,
-            height: 11,
-        },
-        shadowOpacity: 0.55,
-        shadowRadius: 14.78,
-        elevation: 10,
+        elevation: 2,
     }
 };

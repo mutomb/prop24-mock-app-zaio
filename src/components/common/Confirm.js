@@ -3,23 +3,42 @@ import React from 'react';
 import { Text, View, Modal } from 'react-native';
 import { Button } from './Button';
 import { CardSection } from './CardSection';
+import { BLUE_DARK, BLUE } from './Colors';
 
-const Confirm = ({ children, onAccept, onDecline, visible }) => {
+const Confirm = ({ children, onAccept, onDecline, visible, title }) => {
     const { cardSectionStyle, textStyle, containerStyle } = styles;
     return (
         <Modal
         visible={visible}
         transparent
-        animationType='slide'
+        animationType='fade'
         onRequestClose={() => {}}
         >
             <View style={containerStyle}>
-                <CardSection style={cardSectionStyle}>
+                <CardSection style={[cardSectionStyle]}>
+                    <Text style={[textStyle,{fontWeight: 'bold'}]}>{title}</Text>
+                </CardSection>
+                <CardSection style={[cardSectionStyle]}>
                     <Text style={textStyle}>{children}</Text>
                 </CardSection>
-                <CardSection>
-                    <Button onPress={onDecline}>No</Button>
-                    <Button onPress={onAccept}>Yes</Button>
+                <CardSection
+                style={{backgroundColor: '#fff'}}
+                >
+                    <Button 
+                    onPress={onDecline}
+                    style={{ backgroundColor: BLUE}}
+                    underlayColor={BLUE_DARK}
+                    >
+                    CANCEL
+                    </Button>
+                    <Button 
+                    onPress={onAccept}
+                    style={{ backgroundColor: BLUE}}
+                    textStyle={{color: '#fff'}}
+                    underlayColor={BLUE_DARK}
+                    >
+                    OKAY
+                    </Button>
                 </CardSection>
             </View>
         </Modal>
@@ -34,14 +53,14 @@ const styles = {
     },
     cardSectionStyle: {
         justifyContent: 'center',
-        backgroundColor: '#FFC038'
+        backgroundColor: '#ffff'
     },
     textStyle: {
         flex: 1,
         fontSize: 18,
         textAlign: 'center',
         lineHeight: 40
-    }
+    },
 };
 
 export { Confirm };

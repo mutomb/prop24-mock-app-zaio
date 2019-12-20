@@ -3,10 +3,6 @@
     "name": "Property24",
     "slug": "property",
     "privacy": "public",
-    "android": {
-      "package": "com.companyname.property24"
-    },
-
     "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
