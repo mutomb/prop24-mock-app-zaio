@@ -3,7 +3,8 @@ import { Router, Scene, Actions}  from 'react-native-router-flux';
 import LoginForm from './components/LoginForm';
 import SignUpForm from './components/SignUpForm';
 import  PropertyListing from './components/PropertyListing';
-import CreateListing from './components/CreateListing';
+import CreateProperty from './components/CreateProperty';
+import EditProperty from './components/EditProperty';
 import PropertyImageCapturer from './components/PropertyImageCapturer';
 import {BLUE_DARK} from './components/common';
 const RouterComponent = () => (
@@ -33,11 +34,10 @@ const RouterComponent = () => (
             component={PropertyListing}
             hideNavBar
             initial
-            headerBackTitle='Create a Listing'
             />
             <Scene 
-            key='createListing'
-            component={CreateListing}
+            key='createProperty'
+            component={CreateProperty}
             title='Create a Listing'
             titleStyle={{
                 fontFamily:'sans-serif-condensed',
@@ -47,7 +47,7 @@ const RouterComponent = () => (
             />
             <Scene 
             key='editProperty'
-            component={CreateListing}
+            component={EditProperty}
             title='Edit Property'
             titleStyle={{
                 fontFamily:'sans-serif-condensed',

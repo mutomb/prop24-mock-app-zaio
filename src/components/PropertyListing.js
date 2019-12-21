@@ -10,7 +10,7 @@ class PropertyListing extends Component {
         activeTab:1
     }
     onAddPress() {
-        Actions.createListing();
+        Actions.createProperty();
     }
     toggleTab(tabNumber) {
         this.setState({

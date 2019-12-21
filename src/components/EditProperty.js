@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ScrollView, Text, View, Dimensions } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux'; 
-import { listingFormUpdate, resetForm } from '../actions'
+import { propertyFormUpdate, resetForm } from '../actions'
 import {
     Input, Button, Card, CardSection, 
     Spinner, Header, AppLogo, BLUE_DARK, BLUE, RED,
@@ -20,7 +20,7 @@ class EditProperty extends Component {
     }
     onChangeText({prop,value}) {
         console.log(prop)
-        this.props.listingFormUpdate({prop, value});
+        this.props.propertyFormUpdate({prop, value});
     }
     setPickedImage(image) {
         this.setState({image})
@@ -79,7 +79,7 @@ const styles= {
 }
 
 const mapStateToProps = (state) =>{
-    const { name, address, price } = state.listingForm;
+    const { name, address, price } = state.propertyForm;
     return { name, address, price };
 }
-export default connect(mapStateToProps,{ listingFormUpdate })(EditProperty);
+export default connect(mapStateToProps,{ propertyFormUpdate })(EditProperty);

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux'; 
-import { listingFormUpdate, resetForm } from '../actions'
+import { propertyFormUpdate, resetForm } from '../actions'
 import {
     Input, Button, Card, CardSection, 
     BLUE_DARK, BLUE,
@@ -21,8 +21,7 @@ class PropertyForm extends Component {
         }
     }
     onChangeText({prop,value}) {
-        console.log(prop)
-        this.props.listingFormUpdate({prop, value});
+        this.props.propertyFormUpdate({prop, value});
     }
     setPickedImage(image) {
         this.setState({image})
@@ -151,4 +150,4 @@ const styles= {
     }
 }
 
-export default connect(null,{ listingFormUpdate, resetForm })(PropertyForm);
+export default connect(null,{ propertyFormUpdate, resetForm })(PropertyForm);

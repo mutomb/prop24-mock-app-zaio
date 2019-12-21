@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, View, Dimensions } from 'react-native';
+import { ScrollView, View} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux'; 
-import { listingFormUpdate, resetForm } from '../actions'
+import { propertyFormUpdate, resetForm } from '../actions'
 import {
-    Input, Button, Card, CardSection, 
-    Spinner, Header, AppLogo, BLUE_DARK, BLUE, RED,
+    Button, Card, CardSection, 
+    BLUE_DARK, BLUE,
 } from './common';
-import PropertyImagePicker from './PropertyImagePicker';
 import PropertyForm from './PropertyForm';
 
-class CreateListing extends Component {
+class CreateProperty extends Component {
     constructor(props) {
         super(props);
         props.resetForm();
@@ -21,7 +20,7 @@ class CreateListing extends Component {
     }
     onChangeText({prop,value}) {
         console.log(prop)
-        this.props.listingFormUpdate({prop, value});
+        this.props.propertyFormUpdate({prop, value});
     }
     setPickedImage(image) {
         this.setState({image})
@@ -82,7 +81,7 @@ const styles= {
 }
 
 const mapStateToProps = (state) =>{
-    const { name, address, price } = state.listingForm;
+    const { name, address, price } = state.propertyForm;
     return { name, address, price };
 }
-export default connect(mapStateToProps,{ listingFormUpdate, resetForm })(CreateListing);
+export default connect(mapStateToProps,{ propertyFormUpdate, resetForm })(CreateProperty);
