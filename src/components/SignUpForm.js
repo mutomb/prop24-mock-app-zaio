@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux'; 
-import { userAuthFormUpdate, resetForm } from '../actions'
-import {Input, Button, Card, CardSection, Spinner, Header, AppLogo } from './common';
+import { userAuthFormUpdate, resetForm } from '../actions';
+import { Input, Button, Card, CardSection, Header, AppLogo } from './common';
 
 class SignUpForm extends Component {
     constructor(props) {
         super(props);
         props.resetForm();
-
     }
-    onChangeText({prop,value}) {
-        this.props.userAuthFormUpdate({prop, value})
+    onChangeText({ prop, value }) {
+        this.props.userAuthFormUpdate({ prop, value });
     }
     
     render() {
@@ -23,12 +22,12 @@ class SignUpForm extends Component {
             <ScrollView>
             <Card>
                 <CardSection
-                    style={{paddingBottom: 50, flexDirection: 'column',}}
+                    style={{ paddingBottom: 50, flexDirection: 'column', }}
                 >
-                    <Text style={[styles.headerText1,{alignSelf: 'center'}]}>
+                    <Text style={[styles.headerText1, { alignSelf: 'center' }]}>
                         Welcome New User,
                     </Text>
-                    <Text style={[styles.headerText2, {alignSelf: 'center'}]}>
+                    <Text style={[styles.headerText2, { alignSelf: 'center' }]}>
                         Sign up to get started
                     </Text>
                 </CardSection>
@@ -37,8 +36,8 @@ class SignUpForm extends Component {
                     label='FullName' 
                     placeholder='Billy Johnson'
                     onChangeText={fullname => this.onChangeText({
-                        prop:'fullname',
-                        value:fullname
+                        prop: 'fullname',
+                        value: fullname
                     })}
                     value={this.props.fullname}
                     />
@@ -48,34 +47,34 @@ class SignUpForm extends Component {
                     label='Email' 
                     placeholder='user@email.com'
                     onChangeText={email => this.onChangeText({
-                        prop:'email',
-                        value:email
+                        prop: 'email',
+                        value: email
                     })}
                     value={this.props.email}
                     />
                 </CardSection>
                 <CardSection>
                     <Input 
-                    label= 'Password' 
+                    label='Password' 
                     placeholder='password'
                     secureTextEntry 
                     onChangeText={password => this.onChangeText({
-                        prop:'password',
-                        value:password
+                        prop: 'password',
+                        value: password
                     })}
                     value={this.props.password}
                     />
                 </CardSection>
                 <CardSection>
                     <Input 
-                    label= 'Confirm Password' 
+                    label='Confirm Password' 
                     placeholder='password'
                     secureTextEntry 
                     onChangeText={password => this.onChangeText({
-                        prop:'confirmPassword',
-                        value:password
+                        prop: 'confirmPassword',
+                        value: password
                     })}
-                    value= {this.props.confirmPassword}
+                    value={this.props.confirmPassword}
                     />
                 </CardSection>
                 <CardSection>
@@ -86,10 +85,10 @@ class SignUpForm extends Component {
             </Card>
             </ScrollView>           
             </View>     
-        )
+        );
     }
 }
-const styles= {
+const styles = {
     footerTextStyle: {
         color: '#fff',
         fontSize: 16,
@@ -106,10 +105,10 @@ const styles= {
         fontSize: 16,
         paddingHorizontal: 5,
     }
-}
+};
 
-const mapStateToProps = (state) =>{
+const mapStateToProps = (state) => {
     const { fullname, email, password, confirmPassword } = state.authForm;
     return { fullname, email, password, confirmPassword };
-}
-export default connect(mapStateToProps,{ userAuthFormUpdate, resetForm })(SignUpForm);
+};
+export default connect(mapStateToProps, { userAuthFormUpdate, resetForm })(SignUpForm);

@@ -2,6 +2,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { BLUE } from './Colors';
+
 const CardSection = (props) => {
     const { containerStyle } = styles;
     return (

@@ -10,8 +10,8 @@ const ButtonRound = ({ onPress, children, icon, style }) => {
             style={{ 
                 flex: 1,
                 width: 90,
-                height:undefined,
-                alignSelf: "center"
+                height: undefined,
+                alignSelf: 'center'
             }}  
             source={icon}   
             >
@@ -53,7 +53,7 @@ const styles = {
         bottom: 0, 
         justifyContent: 'center',
         alignItems: 'center', 
-        flex:1,
+        flex: 1,
     }
 };
  

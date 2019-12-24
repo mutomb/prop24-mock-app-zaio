@@ -7,38 +7,39 @@ import { ButtonRound, Card, CardSection, Button, BLUE, BLUE_DARK, Header } from 
 /**managing display of properties list */
 class PropertyListing extends Component {
     state={
-        activeTab:1
+        activeTab: 1
     }
     onAddPress() {
         Actions.createProperty();
     }
     toggleTab(tabNumber) {
         this.setState({
-            activeTab:tabNumber
-        })
+            activeTab: tabNumber
+        });
     }
 
     render() {
         return (
-            <View style={{flex:1}}>
+            <View style={{ flex: 1 }}>
             <Header
             style={{
                 marginTop: 0, 
                 backgroundColor: BLUE_DARK,
-                marginTop:0,
                 paddingLeft: 0,
                 elevation: 2,
                 borderRadius: 0
             }}
             >
-                <Card style={{
-                    flex:1,
+                <Card
+                style={{
+                    flex: 1,
                     marginBottom: 0,
                     flexDirection: 'row',
                     justifyContent: 'flex-start',
-                    }}>
+                    }}
+                >
                     <CardSection
-                    style={{backgroundColor: BLUE_DARK}}
+                    style={{ backgroundColor: BLUE_DARK }}
                     >
                         <Text
                         style={{
@@ -55,37 +56,39 @@ class PropertyListing extends Component {
                 </Card>
                         
             </Header>
-            <Card style={{marginLeft: 0, marginRight: 0, marginTop: 0,}} >
-                <CardSection style={{
+            <Card style={{ marginLeft: 0, marginRight: 0, marginTop: 0, }} >
+                <CardSection 
+                style={{
                     flexDirection: 'row', 
                     paddingHorizontal: 0, 
-                    paddingVertical: 0}}>
+                    paddingVertical: 0 }}
+                >
                     <Button
                         style={{
-                            backgroundColor: this.state.activeTab==1? (BLUE):(BLUE_DARK), 
+                            backgroundColor: this.state.activeTab === 1 ? (BLUE) : (BLUE_DARK), 
                             marginLeft: 1,
                             marginRight: 1,
                             borderBottomColor: '#fff',
-                            borderBottomWidth: this.state.activeTab==1? (3):(0),
-                            elevation: this.state.activeTab==1? (3):(0),
-                            borderRadius:0,
+                            borderBottomWidth: this.state.activeTab === 1 ? (3) : (0),
+                            elevation: this.state.activeTab === 1 ? (3) : (0),
+                            borderRadius: 0,
                         }}
-                        onPress={()=>this.toggleTab(1)}
+                        onPress={() => this.toggleTab(1)}
                         underlayColor={BLUE}
                     >
                         Listings
                     </Button>
                     <Button
                     style={{
-                        backgroundColor:  this.state.activeTab==2? (BLUE):(BLUE_DARK),
+                        backgroundColor: this.state.activeTab === 2 ? (BLUE) : (BLUE_DARK),
                         marginLeft: 1,
                         marginRight: 1,
                         borderBottomColor: '#fff',
-                        borderBottomWidth: this.state.activeTab==2? (3):(0),
-                        elevation: this.state.activeTab==2? (3):(0),
-                        borderRadius:0
+                        borderBottomWidth: this.state.activeTab === 2 ? (3) : (0),
+                        elevation: this.state.activeTab === 2 ? (3) : (0),
+                        borderRadius: 0
                     }}
-                    onPress={()=>this.toggleTab(2)}
+                    onPress={() => this.toggleTab(2)}
                     underlayColor={BLUE}
                     >
                         Profile

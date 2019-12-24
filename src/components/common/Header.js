@@ -1,6 +1,6 @@
 /**reusable Header section container */
 import React from 'react';
-import { View, Dimensions} from 'react-native';
+import { View, Dimensions } from 'react-native';
 
 const Header = ({ children, style }) => {
     const { viewStyle } = styles;
@@ -18,7 +18,7 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         paddingVertical: 5,
-        position:'relative',
+        position: 'relative',
         marginTop: 30,
         width: Dimensions.get('window').width,
         height: 100,

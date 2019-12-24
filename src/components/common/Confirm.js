@@ -16,25 +16,25 @@ const Confirm = ({ children, onAccept, onDecline, visible, title }) => {
         >
             <View style={containerStyle}>
                 <CardSection style={[cardSectionStyle]}>
-                    <Text style={[textStyle,{fontWeight: 'bold'}]}>{title}</Text>
+                    <Text style={[textStyle, { fontWeight: 'bold' }]}>{title}</Text>
                 </CardSection>
                 <CardSection style={[cardSectionStyle]}>
                     <Text style={textStyle}>{children}</Text>
                 </CardSection>
                 <CardSection
-                style={{backgroundColor: '#fff'}}
+                style={{ backgroundColor: '#fff' }}
                 >
                     <Button 
                     onPress={onDecline}
-                    style={{ backgroundColor: BLUE}}
+                    style={{ backgroundColor: BLUE }}
                     underlayColor={BLUE_DARK}
                     >
                     CANCEL
                     </Button>
                     <Button 
                     onPress={onAccept}
-                    style={{ backgroundColor: BLUE}}
-                    textStyle={{color: '#fff'}}
+                    style={{ backgroundColor: BLUE }}
+                    textStyle={{ color: '#fff' }}
                     underlayColor={BLUE_DARK}
                     >
                     OKAY

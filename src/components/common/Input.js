@@ -1,17 +1,17 @@
 /**resuable text input */
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput } from 'react-native';
 import { RED } from './Colors';
 
 const Input = ({ label, value, onChangeText, placeholder, secureTextEntry, style, labelStyle }) => {
         const { inputStyle, containerStyle } = styles;
         const [focused, setFocus] = useState(false);
-        const inputFocus= () => {
+        const inputFocus = () => {
             setFocus(true);
-        }
-        const inputBlur =() => {
+        };
+        const inputBlur = () => {
             setFocus(false);
-        }
+        };
         return (
         <View style={containerStyle}>
             <Text style={[styles.labelStyle, labelStyle]}>
@@ -19,10 +19,10 @@ const Input = ({ label, value, onChangeText, placeholder, secureTextEntry, style
             </Text>
             <TextInput
                 secureTextEntry={secureTextEntry}
-                placeholder={focused? (''):(placeholder)}
+                placeholder={focused ? ('') : (placeholder)}
                 placeholderTextColor='#000'
                 autoCorrect={false}
-                style={[inputStyle,{borderBottomWidth: focused? (3):(1)}, style]}
+                style={[inputStyle, { borderBottomWidth: focused ? (3) : (1) }, style]}
                 value={value}
                 onChangeText={onChangeText}
                 selectionColor='#CC0000'
@@ -50,7 +50,7 @@ const styles = {
         lineHeight: 25,
         flex: 1,
         alignSelf: 'stretch',
-        height:100,
+        height: 100,
         borderBottomColor: RED, 
         elevation: 3       
     },

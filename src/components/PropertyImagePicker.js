@@ -1,31 +1,67 @@
 import * as React from 'react';
 import { Image } from 'react-native';
+import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-import {Button, CardSection, BLUE_DARK, BLUE} from './common';
+import { Button, CardSection, BLUE_DARK, BLUE } from './common';
+import { propertyFormUpdate } from '../actions/propertyFormActions';
 
-export default class PropertyImagePicker extends React.Component {
-  state = {
-    image: null,
+class PropertyImagePicker extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      uploading: false,
+      hasPermission: null
+  
+    };
+  }
+
+  componentDidMount() {
+    this.getPermissionAsync();
+  }
+
+  getPermissionAsync = async () => {
+    if (Constants.platform.ios) {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+    } else {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA);
+      this.setState({ hasPermission: status === 'granted' });
+    }
+  }
+  _pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1
+    });
+
+
+    if (!result.cancelled) {
+     this.props.propertyFormUpdate({ prop: 'image', value: result.uri });
+    }
   };
 
   render() {
-    let { image } = this.state;
+    let { image } = this.props;
     return (
         <CardSection
         style={[styles.imageCard]}
         >
           <CardSection
         style={[styles.cardSectionStyle,
-          {alignItems: 'center', 
-          justifyContent:"center", 
-           flex:1,
+          { alignItems: 'center', 
+          justifyContent: 'center', 
+           flex: 1,
            marginLeft: 1,
            marginRight: 1,
           }]}
-        >
+          >
             {image && <Image source={{ uri: image }} resizeMode='stretch' style={styles.imageStyle} />}            
           </CardSection>
 
@@ -33,18 +69,18 @@ export default class PropertyImagePicker extends React.Component {
             style={[styles.buttonSectionStyle]}
           >
             <Button
-              onPress={()=>Actions.propertyImageCapturer({pickedImage: this.captureImage.bind(this)})}
+              onPress={() => Actions.propertyImageCapturer()}
               style={styles.buttonStyle}
-              textStyle={{fontSize: 10}}
+              textStyle={{ fontSize: 10 }}
               underlayColor={BLUE_DARK}
             >
               TAKE A PHOTO
             </Button>
             <Button
-              onPress={this._pickImage}
               style={styles.buttonStyle}
-              textStyle={{fontSize: 10}}
+              textStyle={{ fontSize: 10 }}
               underlayColor={BLUE_DARK}
+              onPress={this._pickImage.bind(this)}
             >
               CHOOSE A PHOTO
             </Button>
@@ -53,48 +89,12 @@ export default class PropertyImagePicker extends React.Component {
         </CardSection>
     );
   }
-
-  componentDidMount() {
-    this.getPermissionAsync();
-    console.log('hi');
-  }
-  getPermissionAsync = async () => {
-    // Camera roll Permission 
-    if (Constants.platform.ios) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== 'granted') {
-        alert('Sorry, we need camera roll permissions to make this work!');
-      }
-    }
-    // Camera Permission
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasPermission: status === 'granted' });
-  }
-
-  _pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1
-    });
-    console.log(result);
-
-    if (!result.cancelled) {
-      this.setState({ image: result.uri });
-    }
-  };
-  captureImage= ({image})=> {
-    if(image) {
-      this.setState({
-        image: image.uri
-      });
-    }
-  };
 }
 
+export default connect(null, { propertyFormUpdate })(PropertyImagePicker);
+ 
 const styles = {
-  imageCard:{
+  imageCard: {
     height: 400,
     elevation: 5,
     backgroundColor: '#F4F4F4',
@@ -106,7 +106,7 @@ const styles = {
     paddingTop: 5,
   },
   cardSectionStyle: {
-    backgroundColor:'#fff',
+    backgroundColor: '#fff',
     marginLeft: 15,
     marginRight: 15,
     borderRadius: 0,
@@ -122,12 +122,59 @@ const styles = {
     bottom: 0, 
     justifyContent: 'center',
     alignItems: 'center', 
-    flex:1,
-    backgroundColor:'#fff',
+    flex: 1,
+    backgroundColor: '#fff',
   },
   buttonStyle: {
     backgroundColor: BLUE
   }
 
 };
+ /*
+  _maybeRenderUploadingOverlay = () => {
+    if (this.state.uploading) {
+      return (
+        <View
+          style={[
+            StyleSheet.absoluteFill,
+            {
+              backgroundColor: 'rgba(0,0,0,0.4)',
+              alignItems: 'center',
+              justifyContent: 'center',
+            },
+          ]}>
+          <ActivityIndicator color="#fff" animating size="large" />
+        </View>
+      );
+    }
+  };
  
+  async  uploadImageAsync (uri) {
+    // Why XMLHttpRequest? See:
+    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function() {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function(e) {
+        console.log(e);
+        reject(new TypeError('Network request failed'));
+      };
+      xhr.responseType = 'blob';
+      xhr.open('GET', uri, true);
+      xhr.send(null);
+    });
+  
+    const ref = firebase
+      .storage()
+      .ref()
+      .child(uuid.v4());
+    const snapshot = await ref.put(blob);
+  
+    // We're done with the blob, close and release it
+    blob.close();
+  
+    return await snapshot.ref.getDownloadURL();
+  }*/
+

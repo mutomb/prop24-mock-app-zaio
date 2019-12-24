@@ -1,12 +1,10 @@
 /**reusable modal container */
 import React from 'react';
 import { Text, View, Modal } from 'react-native';
-import { Button } from './Button';
-import { CardSection } from './CardSection';
 import { Spinner } from './Spinner';
 
 const ModalWithSpinner = ({ children, visible }) => {
-    const { cardSectionStyle, textStyle, containerStyle } = styles;
+    const { textStyle, containerStyle } = styles;
     return (
         <Modal
         visible={visible}
@@ -15,7 +13,7 @@ const ModalWithSpinner = ({ children, visible }) => {
         onRequestClose={() => {}}
         >
             <View style={containerStyle}>
-                <Spinner size={'large'}/>
+                <Spinner size={'large'} />
                 <Text style={textStyle}>{children}</Text>
             </View>
         </Modal>

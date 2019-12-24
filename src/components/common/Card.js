@@ -1,6 +1,7 @@
 /**reusable card container */
 import React from 'react';
 import { View } from 'react-native';
+
 const Card = (props) => {
     const { containerStyle } = styles;
     return (
@@ -14,7 +15,7 @@ const styles = {
     containerStyle: {
         marginLeft: 30,
         marginRight: 30,
-        marginTop:10,
+        marginTop: 10,
         backGroundColor: '#fff',
         borderRadius: 2,
         alignSelf: 'stretch',

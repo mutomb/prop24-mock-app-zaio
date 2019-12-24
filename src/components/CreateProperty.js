@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { ScrollView, View} from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux'; 
-import { propertyFormUpdate, resetForm } from '../actions'
+import { propertyFormUpdate, resetForm } from '../actions';
 import {
     Button, Card, CardSection, 
     BLUE_DARK, BLUE,
@@ -13,43 +13,42 @@ class CreateProperty extends Component {
     constructor(props) {
         super(props);
         props.resetForm();
-        this.state ={
+        /*this.state ={
             image: null,
-            capture: true
-        }
+           capture: true
+        }*/
     }
-    onChangeText({prop,value}) {
-        console.log(prop)
-        this.props.propertyFormUpdate({prop, value});
-    }
-    setPickedImage(image) {
-        this.setState({image})
-    }
-    captureImage() {
-        Actions.ProppertyImageCapture();
-    }
-    render() {
 
+   /*setPickedImage(image) {
+        this.setState({image})
+    }*/
+
+    /*captureImage() {
+        Actions.propertyImageCapturer();
+    }*/
+    render() {
         return (
-            <View style={{flex:1}}>
+            <View style={{ flex: 1 }}>
             <ScrollView>
-            <Card style={{
+            <Card 
+            style={{
                 marginLeft: 0,
                 marginRight: 0,
                 backgroundColor: '#fff',
                 paddingTop: 0,
-                }}>
+                }}
+            >
                 <PropertyForm {...this.props} />
-                <CardSection style={[styles.CardSectionStyle, {flexDirection: 'row',}]}>
+                <CardSection style={[styles.CardSectionStyle, { flexDirection: 'row', }]}>
                     <Button
-                    style={{backgroundColor: BLUE}}
+                    style={{ backgroundColor: BLUE }}
                     underlayColor={BLUE_DARK}
-                    onPress={()=>Actions.pop()}
+                    onPress={() => Actions.pop()}
                     >
                         CANCEL
                     </Button>
                     <Button
-                    style={{backgroundColor: BLUE}}
+                    style={{ backgroundColor: BLUE }}
                     underlayColor={BLUE_DARK}
                     >
                         CREATE
@@ -58,12 +57,12 @@ class CreateProperty extends Component {
             </Card>
             </ScrollView>           
             </View>     
-        )
+        );
     }
 }
-const styles= {
+const styles = {
     CardSectionStyle: {
-        backgroundColor:'#fff',
+        backgroundColor: '#fff',
         marginLeft: 15,
         marginRight: 15,
         borderRadius: 0
@@ -78,10 +77,11 @@ const styles= {
         fontWeight: 'bold',
         fontFamily: 'sans-serif-condensed',
     }
-}
+};
 
-const mapStateToProps = (state) =>{
-    const { name, address, price } = state.propertyForm;
-    return { name, address, price };
-}
-export default connect(mapStateToProps,{ propertyFormUpdate, resetForm })(CreateProperty);
+const mapStateToProps = (state) => {
+    const { name, address, price, image } = state.propertyForm;
+    console.log(image);
+    return { name, address, price, image };
+};
+export default connect(mapStateToProps, { propertyFormUpdate, resetForm })(CreateProperty);

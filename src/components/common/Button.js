@@ -1,19 +1,18 @@
+/* eslint-disable max-len */
 /**reusable button */
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 import { RED } from './Colors';
-const Button = ({ onPress, children, style, underlayColor, textStyle }) => {
 
-    return (
-        <TouchableHighlight onPress={onPress} underlayColor={ underlayColor || '#CC0000' } style={[styles.buttonStyle, style]}>
+const Button = ({ onPress, children, style, underlayColor, textStyle }) => (
+        <TouchableHighlight onPress={onPress} underlayColor={underlayColor || '#CC0000'} style={[styles.buttonStyle, style]}>
             <View>
                 <Text style={[styles.textStyle, textStyle]}>
                 { children}
                 </Text>
             </View>
         </TouchableHighlight>
-    );  
-};
+    );
 
 export { Button };
 

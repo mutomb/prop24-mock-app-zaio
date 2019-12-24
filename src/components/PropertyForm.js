@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux'; 
-import { propertyFormUpdate, resetForm } from '../actions'
+import { propertyFormUpdate, resetForm } from '../actions';
 import {
     Input, Button, Card, CardSection, 
     BLUE_DARK, BLUE,
@@ -14,36 +13,38 @@ class PropertyForm extends Component {
     constructor(props) {
         super(props);
         props.resetForm();
-        this.state ={
-            image: null,
-            capture: true,
+        this.state = {
             showModal: false
-        }
+        };
+       /* this.state ={
+            image: null,
+            showModal: false
+        }*/
     }
-    onChangeText({prop,value}) {
-        this.props.propertyFormUpdate({prop, value});
+    onChangeText({ prop, value }) {
+        this.props.propertyFormUpdate({ prop, value });
     }
-    setPickedImage(image) {
+ /*   setPickedImage(image) {
         this.setState({image})
-    }
-    captureImage() {
+    }*/
+   /* captureImage() {
         Actions.ProppertyImageCapture();
-    }
+    }*/
     deleteProperty() {
-        this.setState({showModal: true});
+        this.setState({ showModal: true });
     }
     renderDeleteButton() {
-        if(this.props.editEmployee){
-            return(
+        if (this.props.editEmployee) {
+            return (
                 <Button
                 onPress={this.deleteProperty.bind(this)}
-                style={{backgroundColor: 'red'}}
-                textStyle={{fontSize: 10}}
+                style={{ backgroundColor: 'red' }}
+                textStyle={{ fontSize: 10 }}
                 underlayColor={BLUE_DARK}
                 >
                 DELETE
                 </Button>
-            )
+            );
         }
         return;
     }
@@ -53,50 +54,57 @@ class PropertyForm extends Component {
             <Confirm
                 title='Warning'
                 visible={this.state.showModal}
-                onDecline={()=>this.setState({showModal:false})}
+                onDecline={() => this.setState({ showModal: false })}
             >
                 Do you want to delete this property?
             </Confirm>
-            <Card style={{
+            <Card
+             style={{
                 marginLeft: 0,
                 marginRight: 0,
                 backgroundColor: '#fff',
                 marginBottom: 0,
                 marginTop: 0,
-                }}>
-                <CardSection style={[styles.CardSectionStyle,{justifyContent: 'flex-start', marginBottom: 0,}]}>
-                    <Text style={[styles.textStyle, {flex: 3}]}>
+                }}
+            >
+                <CardSection
+                    style={[styles.CardSectionStyle, {
+                     justifyContent: 'flex-start', marginBottom: 0, }]}
+                >
+                    <Text style={[styles.textStyle, { flex: 3 }]}>
                         Property Images
                     </Text>
                     {this.renderDeleteButton()}
                 </CardSection>
                 <CardSection style={styles.CardSectionStyle}>
-                    <PropertyImagePicker />
+                    <PropertyImagePicker image={this.props.image} />
                 </CardSection>
-                <CardSection style={[styles.CardSectionStyle, {justifyContent: 'flex-start'}]}>
+                <CardSection style={[styles.CardSectionStyle, { justifyContent: 'flex-start' }]}>
                     <Text style={styles.textStyle}>
                         Property Details
                     </Text>
                 </CardSection>
 
-                <CardSection style={[styles.CardSectionStyle,{
+                <CardSection
+                    style={[styles.CardSectionStyle, {
                     flexDirection: 'column',
                     borderWidth: 3,
                     borderColor: BLUE_DARK,
                     borderRadius: 5,
                     elevation: 5
-                    }]}>
+                    }]}
+                >
                     <CardSection style={styles.CardSectionStyle}>
                         <Input 
                         label='Name' 
                         placeholder=' 2 bed room house'
                         onChangeText={name => this.onChangeText({
-                            prop:'name',
-                            value:name
+                            prop: 'name',
+                            value: name
                         })}
                         value={this.props.name}
                         style={styles.inputStyle}
-                        labelStyle={{color:'#000'}}
+                        labelStyle={{ color: '#000' }}
                         />
                     </CardSection>
                     <CardSection style={styles.CardSectionStyle}>
@@ -104,36 +112,36 @@ class PropertyForm extends Component {
                         label='Address' 
                         placeholder='10 Fredrick street Capetown'
                         onChangeText={address => this.onChangeText({
-                            prop:'address',
-                            value:address
+                            prop: 'address',
+                            value: address
                         })}
                         value={this.props.address}
                         style={styles.inputStyle}
-                        labelStyle={{color:'#000'}}
+                        labelStyle={{ color: '#000' }}
                         />
                     </CardSection>
                     <CardSection style={styles.CardSectionStyle}>
                         <Input 
-                        label= 'Price' 
+                        label='Price' 
                         placeholder='R120'
                         onChangeText={price => this.onChangeText({
-                            prop:'price',
-                            value:price
+                            prop: 'price',
+                            value: price
                         })}
                         value={this.props.price}
                         style={styles.inputStyle}
-                        labelStyle={{color:'#000'}}
+                        labelStyle={{ color: '#000' }}
                         />
                     </CardSection>
                 </CardSection >
             </Card>
             </View>     
-        )
+        );
     }
 }
-const styles= {
+const styles = {
     CardSectionStyle: {
-        backgroundColor:'#fff',
+        backgroundColor: '#fff',
         marginLeft: 15,
         marginRight: 15,
         borderRadius: 0
@@ -148,6 +156,6 @@ const styles= {
         fontWeight: 'bold',
         fontFamily: 'sans-serif-condensed',
     }
-}
+};
 
-export default connect(null,{ propertyFormUpdate, resetForm })(PropertyForm);
+export default connect(null, { propertyFormUpdate, resetForm })(PropertyForm);
