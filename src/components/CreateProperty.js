@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux'; 
-import { propertyFormUpdate, resetForm } from '../actions';
+import { resetForm, propertyCreate, uploadImage } from '../actions';
 import {
     Button, Card, CardSection, 
     BLUE_DARK, BLUE,
@@ -13,19 +13,13 @@ class CreateProperty extends Component {
     constructor(props) {
         super(props);
         props.resetForm();
-        /*this.state ={
-            image: null,
-           capture: true
-        }*/
+    }
+    onCreatePress() {
+        const { name, address, image, price } = this.props;
+        this.props.propertyCreate({ name, address, price });
+        this.props.uploadImage({image})
     }
 
-   /*setPickedImage(image) {
-        this.setState({image})
-    }*/
-
-    /*captureImage() {
-        Actions.propertyImageCapturer();
-    }*/
     render() {
         return (
             <View style={{ flex: 1 }}>
@@ -50,6 +44,7 @@ class CreateProperty extends Component {
                     <Button
                     style={{ backgroundColor: BLUE }}
                     underlayColor={BLUE_DARK}
+                    onPress={this.onCreatePress.bind(this)}
                     >
                         CREATE
                     </Button>
@@ -84,4 +79,4 @@ const mapStateToProps = (state) => {
     console.log(image);
     return { name, address, price, image };
 };
-export default connect(mapStateToProps, { propertyFormUpdate, resetForm })(CreateProperty);
+export default connect(mapStateToProps, { resetForm, propertyCreate, uploadImage })(CreateProperty);

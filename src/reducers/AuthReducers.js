@@ -18,7 +18,7 @@ export default (state = INITIAL_STATE, action) => {
         case RESET_FORM:
             return INITIAL_STATE;
         case USER_AUTH_FORM_UPDATE:
-            return { ...state, [action.payload.prop]: action.payload.value };
+            return { ...state, error: '', [action.payload.prop]: action.payload.value };
         case USER_SIGNUP:
             return { ...state, loading: true };
         case USER_SIGNUP_FAIL:

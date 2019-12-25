@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux'; 
-import { userAuthFormUpdate, resetForm } from '../actions';
-import { Input, Button, Card, CardSection, Header, AppLogo } from './common';
+import { userAuthFormUpdate, resetForm, signUpUser } from '../actions';
+import { 
+    Input, Button, Card, CardSection, Header, AppLogo, Spinner, 
+    RED, BLUE
+} from './common';
 
 class SignUpForm extends Component {
     constructor(props) {
@@ -12,7 +15,35 @@ class SignUpForm extends Component {
     onChangeText({ prop, value }) {
         this.props.userAuthFormUpdate({ prop, value });
     }
-    
+    onCreatePress() {
+        const { username, email, password } = this.props;
+        this.props.signUpUser({ username, email, password });
+    }
+    renderButton() {
+        if (this.props.loading) {
+            return <Spinner size="large" />;
+        }
+        return (
+            <Button
+            onPress={this.onCreatePress.bind(this)}
+            >
+                Login
+            </Button>
+        );
+    }
+    renderError() {
+        if (this.props.error) {
+            return (
+            <Text 
+            style={{ color: RED, 
+                backgroundColor: BLUE, 
+                paddingHorizontal: 10 
+            }}
+            >
+            {this.props.error}
+            </Text>);
+        }
+    }
     render() {
         return (
             <View>
@@ -22,7 +53,7 @@ class SignUpForm extends Component {
             <ScrollView>
             <Card>
                 <CardSection
-                    style={{ paddingBottom: 50, flexDirection: 'column', }}
+                    style={[{ paddingBottom: 50, flexDirection: 'column' }, styles.cardSection]}
                 >
                     <Text style={[styles.headerText1, { alignSelf: 'center' }]}>
                         Welcome New User,
@@ -31,7 +62,7 @@ class SignUpForm extends Component {
                         Sign up to get started
                     </Text>
                 </CardSection>
-                <CardSection>
+                <CardSection style={styles.cardSection}>
                     <Input 
                     label='FullName' 
                     placeholder='Billy Johnson'
@@ -42,7 +73,7 @@ class SignUpForm extends Component {
                     value={this.props.fullname}
                     />
                 </CardSection>
-                <CardSection>
+                <CardSection style={styles.cardSection}>
                     <Input 
                     label='Email' 
                     placeholder='user@email.com'
@@ -53,7 +84,7 @@ class SignUpForm extends Component {
                     value={this.props.email}
                     />
                 </CardSection>
-                <CardSection>
+                <CardSection style={styles.cardSection}>
                     <Input 
                     label='Password' 
                     placeholder='password'
@@ -65,7 +96,7 @@ class SignUpForm extends Component {
                     value={this.props.password}
                     />
                 </CardSection>
-                <CardSection>
+                <CardSection style={styles.cardSection}>
                     <Input 
                     label='Confirm Password' 
                     placeholder='password'
@@ -77,10 +108,9 @@ class SignUpForm extends Component {
                     value={this.props.confirmPassword}
                     />
                 </CardSection>
-                <CardSection>
-                    <Button>
-                        Sign up
-                    </Button>
+                {this.renderError()}
+                <CardSection style={styles.cardSection}>
+                    {this.renderButton()}
                 </CardSection>
             </Card>
             </ScrollView>           
@@ -104,11 +134,14 @@ const styles = {
         color: 'grey',
         fontSize: 16,
         paddingHorizontal: 5,
+    },
+    cardSection: {
+        marginBottom: 0,
     }
 };
 
 const mapStateToProps = (state) => {
-    const { fullname, email, password, confirmPassword } = state.authForm;
-    return { fullname, email, password, confirmPassword };
+    const { fullname, email, password, confirmPassword, loading, error } = state.authForm;
+    return { fullname, email, password, confirmPassword, loading, error };
 };
-export default connect(mapStateToProps, { userAuthFormUpdate, resetForm })(SignUpForm);
+export default connect(mapStateToProps, { userAuthFormUpdate, signUpUser, resetForm })(SignUpForm);

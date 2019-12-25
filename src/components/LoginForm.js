@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, ScrollView, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { Input, Button, Card, CardSection, Header, AppLogo } from './common';
-import { userAuthFormUpdate, resetForm } from '../actions';
+import { Input, Button, Card, CardSection, Header, AppLogo, Spinner, RED, BLUE } from './common';
+import { userAuthFormUpdate, resetForm, signInUser } from '../actions';
 
 class LoginForm extends Component {
     constructor(props) {
@@ -24,7 +24,34 @@ class LoginForm extends Component {
         this.props.userAuthFormUpdate({ prop, value });
     }
     onLoginPress() {
-        Actions.main();
+       // Actions.main();
+        const { email, password } = this.props; 
+        this.props.signInUser({ email, password });        
+    }
+    renderButton() {
+        if (this.props.loading) {
+            return <Spinner size="large" />;
+        }
+        return (
+            <Button
+            onPress={this.onLoginPress.bind(this)}
+            >
+                Login
+            </Button>
+        );
+    }
+    renderError() {
+        if (this.props.error) {
+            return (
+            <Text 
+            style={{ color: RED, 
+                backgroundColor: BLUE, 
+                paddingHorizontal: 10 
+            }}
+            >
+            {this.props.error}
+            </Text>);
+        }
     }
     render() {
         return (
@@ -35,7 +62,7 @@ class LoginForm extends Component {
             <ScrollView>
             <Card>
                 <CardSection
-                    style={{ paddingBottom: 50, flexDirection: 'column', }}
+                    style={[{ paddingBottom: 50, flexDirection: 'column' }, styles.cardSection]}
                 >
                     <Text style={[styles.headerText1, { alignSelf: 'center' }]}>
                         Welcome Back,
@@ -44,7 +71,7 @@ class LoginForm extends Component {
                         Sign in to continue
                     </Text>
                 </CardSection>
-                <CardSection>
+                <CardSection style={styles.cardSection}>
                     <Input 
                     label='Email' 
                     placeholder='user@email.com'
@@ -54,7 +81,7 @@ class LoginForm extends Component {
                     value={this.props.email}
                     />
                 </CardSection>
-                <CardSection>
+                <CardSection style={styles.cardSection}>
                     <Input 
                     label='Password' 
                     placeholder='password'
@@ -65,15 +92,12 @@ class LoginForm extends Component {
                     value={this.props.password}
                     />
                 </CardSection>
-                <CardSection>
-                    <Button
-                    onPress={this.onLoginPress.bind(this)}
-                    >
-                        Login
-                    </Button>
+                    {this.renderError()}
+                <CardSection style={styles.cardSection}>
+                {this.renderButton()}
                 </CardSection>
                 <CardSection
-                    style={{ paddingBottom: 50 }}
+                    style={[{ paddingBottom: 50 }, styles.cardSection]}
                 >
                     <Text style={[styles.footerTextStyle]}>
                         New user ?
@@ -101,10 +125,13 @@ class LoginForm extends Component {
     }
 }
 const mapStateToProps = (state) => {
-    const { email, password } = state.authForm;
-    return { email, password };
+    const { email, password, loading, error } = state.authForm;
+    console.log(email, password, loading, error);
+    return { email, password, loading, error };
 };
-export default connect(mapStateToProps, { userAuthFormUpdate, resetForm })(LoginForm);
+export default connect(mapStateToProps, { 
+    userAuthFormUpdate, resetForm, signInUser
+})(LoginForm);
 
 const styles = {
     footerTextStyle: {
@@ -122,5 +149,8 @@ const styles = {
         color: 'grey',
         fontSize: 16,
         paddingHorizontal: 5,
+    },   
+    cardSection: {
+        marginBottom: 0,
     }
 };

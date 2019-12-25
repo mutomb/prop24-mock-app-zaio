@@ -16,20 +16,12 @@ class PropertyForm extends Component {
         this.state = {
             showModal: false
         };
-       /* this.state ={
-            image: null,
-            showModal: false
-        }*/
     }
+
     onChangeText({ prop, value }) {
         this.props.propertyFormUpdate({ prop, value });
     }
- /*   setPickedImage(image) {
-        this.setState({image})
-    }*/
-   /* captureImage() {
-        Actions.ProppertyImageCapture();
-    }*/
+
     deleteProperty() {
         this.setState({ showModal: true });
     }
