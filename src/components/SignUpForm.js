@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View, Keyboard } from 'react-native';
 import { connect } from 'react-redux'; 
 import { userAuthFormUpdate, resetForm, signUpUser } from '../actions';
 import { 
@@ -11,6 +11,18 @@ class SignUpForm extends Component {
     constructor(props) {
         super(props);
         props.resetForm();
+        this.state = {
+            keyboardDidShowListener: Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this)),
+            keyboardDidHideListener: Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this)),
+            marginBottom: 0
+        };
+    }
+    _keyboardDidShow(e) {
+        this.setState({ marginBottom: e.endCoordinates.height + 100 });
+     }
+     
+     _keyboardDidHide() {
+        this.setState({ marginBottom: 0 });
     }
     onChangeText({ prop, value }) {
         this.props.userAuthFormUpdate({ prop, value });
@@ -27,7 +39,7 @@ class SignUpForm extends Component {
             <Button
             onPress={this.onCreatePress.bind(this)}
             >
-                Login
+                Create
             </Button>
         );
     }
@@ -46,12 +58,12 @@ class SignUpForm extends Component {
     }
     render() {
         return (
-            <View>
+            <View style={{ flex: 1, backgroundColor: '#fff' }}>
             <Header>
                 <AppLogo />
             </Header>
             <ScrollView>
-            <Card>
+            <Card style={{ marginBottom: this.state.marginBottom, }}>
                 <CardSection
                     style={[{ paddingBottom: 50, flexDirection: 'column' }, styles.cardSection]}
                 >

@@ -9,4 +9,5 @@ export * from './AppLogo';
 export * from './ButtonRound';
 export * from './Colors';
 export * from './ModalWithSpinner';
+export * from './Info';
 /**facilitate import of resuable components */

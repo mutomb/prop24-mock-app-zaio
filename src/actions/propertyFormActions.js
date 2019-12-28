@@ -1,6 +1,4 @@
 import firebase from 'firebase';
-import uuid from 'uuid';
-import { Actions } from 'react-native-router-flux';
 import {
     PROPERTY_FORM_UPDATE,
     PROPERTY_CREATE, PROPERTY_CREATE_FAIL, PROPERTY_CREATE_SUCCESS,
@@ -9,7 +7,7 @@ import {
     IMAGE_UPLOAD, IMAGE_UPLOAD_FAIL, IMAGE_UPLOAD_SUCCESS
 } from './types';
 
-
+ 
 export const propertyFormUpdate = ({ prop, value }) => ({
     type: PROPERTY_FORM_UPDATE,
     payload: { prop, value }
@@ -19,61 +17,60 @@ export const propertyCreate = ({ image, name, address, price }) => (dispatch) =>
             type: PROPERTY_CREATE
         });
         const { uid } = firebase.auth().currentUser;
-       /* firebase.database().ref(`/users/${uid}/properties`)
-            .set({ name, address, price })
+       firebase.database().ref(`/users/${uid}/properties`)
+            .set({ name, address, price, image })
             .then(property => {
-                console.log('created property');
-                Actions.main();
+                console.log('created property');            
                 dispatch({
                     type: PROPERTY_CREATE_SUCCESS,
                     payload: property
                 });
             })
-            .catch(error => {
+            .catch(() => {
                 console.log('error creating property');
                 dispatch({
                     type: PROPERTY_CREATE_FAIL
                 });
-            });*/
+            });
     };
 
-    export const uploadImage = ({ image }) => (dispatch) => {
-        dispatch({ type: IMAGE_UPLOAD });
-        const { uid } = firebase.auth().currentUser;
-        (async () => {
-            const blob = await new Promise((resolve, reject) => {
-                const xhr = new XMLHttpRequest();
-                xhr.onload = function () {
-                  resolve(xhr.response);
-                };
-                xhr.onerror = function (e) {
-                  console.log(e);
-                  reject(new TypeError('Network request failed'));
-                };
-                xhr.responseType = 'blob';
-                xhr.open('GET', image, true);
-                xhr.send(null);
-              });
-              console.log('blob created')
-            firebase.storage().ref(`users/${uid}/images/${uuid.v4()}`)
-            .put(blob)
-            .then((snapshot) => {
-                console.log('image uploaded');
-                blob.close();
-                dispatch({
-                    type: IMAGE_UPLOAD_SUCCESS,
-                    payload: snapshot.ref.getDownloadURL()
-                }); 
-            })
-            .catch((error) => {
-                blob.close();
-                console.log('image not uploaded: '+error);
-                dispatch({
-                    type: IMAGE_UPLOAD_FAIL
-                });
+export const uploadImage = ({ image, fileName }) => (dispatch) => {
+    dispatch({ type: IMAGE_UPLOAD });
+    const { uid } = firebase.auth().currentUser;
+    (async () => {
+        const blob = await new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                resolve(xhr.response);
+            };
+            xhr.onerror = function (e) {
+                console.log(e);
+                reject(new TypeError('Network request failed'));
+            };
+            xhr.responseType = 'blob';
+            xhr.open('GET', image, true);
+            xhr.send(null);
             });
-        })();
-    };
+            console.log('blob created');
+        firebase.storage().ref(`users/${uid}/images/${fileName}`)
+        .put(blob)
+        .then((snapshot) => {
+            console.log('image uploaded');
+            blob.close();
+            dispatch({
+                type: IMAGE_UPLOAD_SUCCESS,
+                payload: snapshot.ref.getDownloadURL()
+            }); 
+        })
+        .catch((error) => {
+            blob.close();
+            console.log(`image not uploaded: ${error}`);
+            dispatch({
+                type: IMAGE_UPLOAD_FAIL
+            });
+        });
+    })();
+};
 
 export const propertyEdit = ({ uid, image, name, address, price }) => (dispatch) => {
         dispatch({

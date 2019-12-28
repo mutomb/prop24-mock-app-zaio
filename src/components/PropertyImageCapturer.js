@@ -79,14 +79,7 @@ class PropertyImageCapturer extends React.Component {
         <Camera style={{ flex: 1 }} type={this.state.cameraType} ref={ref => { this.camera = ref; }}>
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', margin: 30 }}>
             <TouchableOpacity
-              style={{
-                alignSelf: 'flex-end',
-                alignItems: 'center',
-                backgroundColor: BLUE,
-                borderRadius: 30,
-                elevation: 10,
-                padding: 10,             
-              }}
+              style={styles.touchable}
               onPress={() => this.pickImage()}
             >
               <Ionicons
@@ -95,14 +88,7 @@ class PropertyImageCapturer extends React.Component {
               />
             </TouchableOpacity>
             <TouchableOpacity
-              style={{
-                alignSelf: 'flex-end',
-                alignItems: 'center',
-                backgroundColor: BLUE,
-                borderRadius: 30,
-                elevation: 10,
-                padding: 10,
-              }}
+              style={styles.touchable}
               onPress={() => this.takePicture()}
             >
               <FontAwesome
@@ -111,14 +97,7 @@ class PropertyImageCapturer extends React.Component {
               />
             </TouchableOpacity>
             <TouchableOpacity
-              style={{
-                alignSelf: 'flex-end',
-                alignItems: 'center',
-                backgroundColor: BLUE,
-                borderRadius: 30,
-                elevation: 10,
-                padding: 10,
-              }}
+              style={styles.touchable}
               onPress={() => this.handleCameraType()}
             >
               <MaterialCommunityIcons
@@ -134,3 +113,14 @@ class PropertyImageCapturer extends React.Component {
   
 }
 export default connect(null, { propertyFormUpdate })(PropertyImageCapturer);
+
+const styles = {
+  touchable: {
+    alignSelf: 'flex-end',
+    alignItems: 'center',
+    backgroundColor: BLUE,
+    borderRadius: 30,
+    elevation: 10,
+    padding: 10,
+  }
+};

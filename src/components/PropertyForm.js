@@ -25,8 +25,8 @@ class PropertyForm extends Component {
     deleteProperty() {
         this.setState({ showModal: true });
     }
-    renderDeleteButton() {
-        if (this.props.editEmployee) {
+   /* renderDeleteButton() {
+        if (this.props.propertyEdit) {
             return (
                 <Button
                 onPress={this.deleteProperty.bind(this)}
@@ -39,7 +39,7 @@ class PropertyForm extends Component {
             );
         }
         return;
-    }
+    }*/
     render() {
         return (
             <View>
@@ -66,7 +66,7 @@ class PropertyForm extends Component {
                     <Text style={[styles.textStyle, { flex: 3 }]}>
                         Property Images
                     </Text>
-                    {this.renderDeleteButton()}
+                    {/*this.renderDeleteButton()*/}
                 </CardSection>
                 <CardSection style={styles.CardSectionStyle}>
                     <PropertyImagePicker image={this.props.image} />

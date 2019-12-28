@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableWithoutFeedback, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, ScrollView, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Input, Button, Card, CardSection, Header, AppLogo, Spinner, RED, BLUE } from './common';
@@ -9,7 +9,19 @@ class LoginForm extends Component {
     constructor(props) {
         super(props);
         props.resetForm();
-        this.state = { underLine: false };
+        this.state = { 
+            underLine: false,
+            keyboardDidShowListener: Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this)),
+            keyboardDidHideListener: Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this)),
+            marginBottom: 0
+        };
+    }
+    _keyboardDidShow(e) {
+        this.setState({ marginBottom: e.endCoordinates.height + 100 });
+     }
+     
+     _keyboardDidHide() {
+        this.setState({ marginBottom: 0 });
     }
     underLine() {
         this.setState({ underLine: true });
@@ -55,12 +67,12 @@ class LoginForm extends Component {
     }
     render() {
         return (
-            <View>
+            <View style={{ flex: 1, backgroundColor: '#fff' }}>
             <Header>
                 <AppLogo />
             </Header>
             <ScrollView>
-            <Card>
+            <Card style={{ marginBottom: this.state.marginBottom }}>
                 <CardSection
                     style={[{ paddingBottom: 50, flexDirection: 'column' }, styles.cardSection]}
                 >
@@ -126,7 +138,6 @@ class LoginForm extends Component {
 }
 const mapStateToProps = (state) => {
     const { email, password, loading, error } = state.authForm;
-    console.log(email, password, loading, error);
     return { email, password, loading, error };
 };
 export default connect(mapStateToProps, { 

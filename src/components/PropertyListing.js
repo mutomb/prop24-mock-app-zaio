@@ -1,114 +1,140 @@
 import React, { Component } from 'react';
-import { FlatList, View, Text, Dimensions } from 'react-native';
+import _ from 'lodash';
+import { View, TouchableOpacity, ScrollView, FlatList, Dimensions, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { ButtonRound, Card, CardSection, Button, BLUE, BLUE_DARK, Header } from './common';
+import { propertiesFetch } from '../actions';
+import { 
+    ButtonRound, Card, CardSection, Button, Header, AppLogo,
+    BLUE, BLUE_DARK,
+    } from './common';
+import ListItem from './ListItem';
 
 /**managing display of properties list */
 class PropertyListing extends Component {
-    state={
-        activeTab: 1
+    constructor(props) {
+        super(props);
+        this.state = {
+            activeTab: 1,
+            dataSource: []
+        };
+       this.props.propertiesFetch();
     }
     onAddPress() {
         Actions.createProperty();
+    }
+    onLogoutPress() {
+        Actions.auth();
     }
     toggleTab(tabNumber) {
         this.setState({
             activeTab: tabNumber
         });
     }
-
+    renderItem({ item, index }) {
+        return <ListItem property={item} index={index} />;
+    }
     render() {
         return (
-            <View style={{ flex: 1 }}>
-            <Header
-            style={{
-                marginTop: 0, 
-                backgroundColor: BLUE_DARK,
-                paddingLeft: 0,
-                elevation: 2,
-                borderRadius: 0
-            }}
-            >
-                <Card
-                style={{
-                    flex: 1,
-                    marginBottom: 0,
-                    flexDirection: 'row',
-                    justifyContent: 'flex-start',
-                    }}
+            <View style={{ flex: 1, backgroundColor: '#fff' }}>
+            <Header style={{ flexDirection: 'row' }}>
+                <AppLogo 
+                style={{ flex: 4, alignItems: 'flex-end', }} 
+                imageStyle={{ width: Dimensions.get('window').width - 100 }}
+                />
+                <TouchableOpacity
+                    style={styles.button1}
+                    onPress={() => this.onLogoutPress()}
                 >
-                    <CardSection
-                    style={{ backgroundColor: BLUE_DARK }}
-                    >
-                        <Text
-                        style={{
-                            fontSize: 30,
-                            color: '#fff',
-                            fontWeight: 'bold',
-                            fontFamily: 'sans-serif',
-
-                        }}
-                        >
-                            Property24
-                        </Text>
-                    </CardSection>
-                </Card>
-                        
+                    <Image 
+                    source={require('../../assets/lock_closed.png')}
+                    style={{ width: 35, height: 35, opacity: 0.9 }}
+                    />
+                </TouchableOpacity>
             </Header>
-            <Card style={{ marginLeft: 0, marginRight: 0, marginTop: 0, }} >
+            <Card style={styles.card1} >
                 <CardSection 
-                style={{
-                    flexDirection: 'row', 
-                    paddingHorizontal: 0, 
-                    paddingVertical: 0 }}
+                    style={styles.cardsection}
                 >
                     <Button
-                        style={{
+                        style={[styles.button2, {
                             backgroundColor: this.state.activeTab === 1 ? (BLUE) : (BLUE_DARK), 
-                            marginLeft: 1,
-                            marginRight: 1,
-                            borderBottomColor: '#fff',
                             borderBottomWidth: this.state.activeTab === 1 ? (3) : (0),
                             elevation: this.state.activeTab === 1 ? (3) : (0),
-                            borderRadius: 0,
-                        }}
+                        }]}
                         onPress={() => this.toggleTab(1)}
                         underlayColor={BLUE}
                     >
                         Listings
                     </Button>
                     <Button
-                    style={{
-                        backgroundColor: this.state.activeTab === 2 ? (BLUE) : (BLUE_DARK),
-                        marginLeft: 1,
-                        marginRight: 1,
-                        borderBottomColor: '#fff',
-                        borderBottomWidth: this.state.activeTab === 2 ? (3) : (0),
-                        elevation: this.state.activeTab === 2 ? (3) : (0),
-                        borderRadius: 0
-                    }}
-                    onPress={() => this.toggleTab(2)}
-                    underlayColor={BLUE}
+                        style={[styles.button2, {
+                            backgroundColor: this.state.activeTab === 2 ? (BLUE) : (BLUE_DARK),
+                            borderBottomWidth: this.state.activeTab === 2 ? (3) : (0),
+                            elevation: this.state.activeTab === 2 ? (3) : (0),
+                        }]}
+                        onPress={() => this.toggleTab(2)}
+                        underlayColor={BLUE}
                     >
                         Profile
                     </Button>
                 </CardSection>
             </Card>
+            <ScrollView>
+                <Card>
+                 <FlatList 
+                    data={this.props.properties}
+                    renderItem={this.renderItem}
+                 />
+                </Card>
+            </ScrollView>
             <ButtonRound
             onPress={this.onAddPress.bind(this)}
-            style={{
-                width: 75,
-                height: 75,
-                borderRadius: 37.5,
-                position: 'absolute',                                          
-                bottom: 30,                                                    
-                right: 20
-            }}
+            style={styles.roundButton}
             icon={require('../../assets/add.png')}
             />
             </View>
         ); 
     }
 }
-export default PropertyListing;
+const mapStateToProps = state => { 
+    const properties = _.map(state.properties, (value, uid) => ({ ...value, uid }));
+    console.log(properties);
+    return { properties };
+};
+export default connect(mapStateToProps, { propertiesFetch })(PropertyListing);
+
+const styles = {
+    button1: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 30,
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.0)',
+        padding: 0,
+    },
+    button2: {
+        marginLeft: 1,
+        marginRight: 1,
+        borderBottomColor: '#fff',
+        borderRadius: 0,   
+    },
+    cardsection: {
+        flexDirection: 'row', 
+        paddingHorizontal: 0, 
+        paddingVertical: 0 
+    },
+    roundButton: {
+        width: 75,
+        height: 75,
+        borderRadius: 37.5,
+        position: 'absolute',                                          
+        bottom: 30,                                                    
+        right: 20
+    },
+    card1: {
+         marginLeft: 0, 
+         marginRight: 0, 
+         marginTop: 0 
+    },
+};

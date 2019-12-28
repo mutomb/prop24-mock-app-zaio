@@ -15,11 +15,9 @@ const styles = {
     containerStyle: {
         marginLeft: 30,
         marginRight: 30,
-        marginTop: 10,
         backGroundColor: '#fff',
         borderRadius: 2,
         alignSelf: 'stretch',
-        marginBottom: 300,
     }
 };
 

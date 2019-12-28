@@ -45,7 +45,19 @@ class PropertyImagePicker extends React.Component {
     if (!result.cancelled) {
      this.props.propertyFormUpdate({ prop: 'image', value: result.uri });
     }
-  };
+  }
+  renderButton1() {
+    if (this.props.image) {
+      return 'TAKE A PHOTO';
+    }
+    return 'TAKE ANOTHER';
+  }
+  renderButton2() {
+    if (this.props.image) {
+      return 'CHOOSE A PHOTO';
+    }
+    return 'CHOOSE ANOTHER';
+  }
 
   render() {
     let { image } = this.props;
@@ -74,7 +86,7 @@ class PropertyImagePicker extends React.Component {
               textStyle={{ fontSize: 10 }}
               underlayColor={BLUE_DARK}
             >
-              TAKE A PHOTO
+              {this.renderButton1()}
             </Button>
             <Button
               style={styles.buttonStyle}
@@ -82,7 +94,7 @@ class PropertyImagePicker extends React.Component {
               underlayColor={BLUE_DARK}
               onPress={this._pickImage.bind(this)}
             >
-              CHOOSE A PHOTO
+              {this.renderButton2()}
             </Button>
           </CardSection>
 
@@ -148,33 +160,5 @@ const styles = {
       );
     }
   };
- 
-  async  uploadImageAsync (uri) {
-    // Why XMLHttpRequest? See:
-    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function() {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function(e) {
-        console.log(e);
-        reject(new TypeError('Network request failed'));
-      };
-      xhr.responseType = 'blob';
-      xhr.open('GET', uri, true);
-      xhr.send(null);
-    });
-  
-    const ref = firebase
-      .storage()
-      .ref()
-      .child(uuid.v4());
-    const snapshot = await ref.put(blob);
-  
-    // We're done with the blob, close and release it
-    blob.close();
-  
-    return await snapshot.ref.getDownloadURL();
-  }*/
+ */
 

@@ -24,7 +24,6 @@ const RouterComponent = () => (
             <Scene
             key='signUp'
             component={SignUpForm}
-            hideNavBar
             />
         </Scene>
         <Scene

@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Image, Dimensions } from 'react-native';
 
-const AppLogo = () => (
-      <View style={styles.viewStyle}>
+const AppLogo = ({ style, imageStyle }) => (
+      <View style={[styles.viewStyle, style]}>
         <Image 
         source={require('../../../assets/logo.png')}
-        style={styles.imageStyle} 
+        style={[styles.imageStyle, imageStyle]} 
         />
       </View>
     );

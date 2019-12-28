@@ -32,8 +32,9 @@ export const PROPERTY_DELETE_FAIL = 'property_delete_fail';
 
 export const PROPERTY_FETCH = 'property_fetch';
 export const PROPERTY_FETCH_SUCCESS = 'property_fetch_success';
+export const PROPERTY_FETCH_FAIL = 'property_fetch_fail';
 
-export const PORPERTY_SEARCH = 'property_search';
+export const PROPERTY_SEARCH = 'property_search';
 
 export const IMAGE_UPLOAD = 'image_upload';
 export const IMAGE_UPLOAD_SUCCESS = 'image_upload_success';

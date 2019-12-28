@@ -1,8 +1,9 @@
 import firebase from 'firebase';
 import {
   PROPERTY_FETCH_SUCCESS, PROPERTY_FETCH,
-  PORPERTY_SEARCH
+  PROPERTY_SEARCH
 } from './types'; 
+
 
 export const propertiesFetch = () => (dispatch) => {
         dispatch({ type: PROPERTY_FETCH });
@@ -16,6 +17,6 @@ export const propertiesFetch = () => (dispatch) => {
             });
     };
 export const propertySearch = ({ tag, key }) => ({
-        type: PORPERTY_SEARCH,
+        type: PROPERTY_SEARCH,
         payload: { tag, key }
     });
