@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { ScrollView, View, Text, Keyboard } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux'; 
-import uuid from 'uuid';
 import { resetForm, propertyCreate, uploadImage } from '../actions';
 import {
     Button, Card, CardSection, Info, Header, AppLogo,
@@ -30,10 +29,8 @@ class CreateProperty extends Component {
         this.setState({ marginBottom: 0 });
     }
     onCreatePress() {
-        const fileName = uuid.v4();
         const { name, address, image, price } = this.props;
-        this.props.propertyCreate({ name, address, price, image: fileName });
-        this.props.uploadImage({ image, fileName });
+        this.props.propertyCreate({ name, address, price, image });
     }
     renderButtons() {
         if (this.props.loading) {

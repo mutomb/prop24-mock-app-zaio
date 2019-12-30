@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { View, TouchableOpacity, ScrollView, FlatList, Dimensions, Image } from 'react-native';
+import { 
+    View, TouchableOpacity, FlatList, SafeAreaView, Text,
+    Dimensions, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { propertiesFetch } from '../actions';
 import { 
-    ButtonRound, Card, CardSection, Button, Header, AppLogo,
+    ButtonRound, Card, CardSection, Button, Header, AppLogo, Spinner,
     BLUE, BLUE_DARK,
     } from './common';
 import ListItem from './ListItem';
@@ -19,7 +21,13 @@ class PropertyListing extends Component {
             dataSource: []
         };
        this.props.propertiesFetch();
-    }
+    } 
+    /*shouldComponentUpdate(nextProps, nextState) {
+        if (this.props.properties === nextProps.properties) {
+            return false;
+        }
+        return true;
+    }*/
     onAddPress() {
         Actions.createProperty();
     }
@@ -33,6 +41,60 @@ class PropertyListing extends Component {
     }
     renderItem({ item, index }) {
         return <ListItem property={item} index={index} />;
+    }
+    renderError() {
+        if (this.props.error) {
+            return (
+            <View 
+            style={{ 
+                flex: 1,
+                backgroundColor: '#ffff',
+                alignItems: 'center',
+                justifyContent: 'center',
+                }}
+            > 
+                <Text
+                    style={{ fontSize: 20, color: '#000' }}
+                > 
+                {this.props.error} 
+                </Text> 
+            </View>
+            );
+        }
+    }
+    renderLoading() {
+        if (this.props.loading) {
+            return (<Spinner size='large' color={BLUE} />);
+        }
+    }
+    renderEmpty() {
+        if (this.props.properties.length === 0 && !this.props.error && !this.props.loading) {
+            return (
+                <View 
+                style={{ 
+                    flex: 1,
+                    backgroundColor: '#ffff',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'row'
+                    }}
+                > 
+                    <Text
+                        style={{ fontSize: 20, color: '#000' }}
+                    > 
+                    Empty. Tap
+                    </Text> 
+                    <View style={{ width: 30, height: 30, marginHorizontal: 5 }}>
+                    <Image source={require('../../assets/add.png')} style={{ width: '100%', height: '100%' }} />
+                    </View>
+                    <Text
+                        style={{ fontSize: 20, color: '#000' }}
+                    > 
+                     to add Propties.
+                    </Text> 
+                </View>
+                );
+        }
     }
     render() {
         return (
@@ -80,14 +142,17 @@ class PropertyListing extends Component {
                     </Button>
                 </CardSection>
             </Card>
-            <ScrollView>
-                <Card>
-                 <FlatList 
+            <Card style={{ marginLeft: 2, marginRight: 2, flex: 1 }}>
+                <SafeAreaView>
+                    <FlatList 
                     data={this.props.properties}
                     renderItem={this.renderItem}
-                 />
-                </Card>
-            </ScrollView>
+                    />
+                </SafeAreaView>
+                {this.renderError()}
+                {this.renderLoading()}
+                {this.renderEmpty()}
+            </Card>
             <ButtonRound
             onPress={this.onAddPress.bind(this)}
             style={styles.roundButton}
@@ -98,9 +163,9 @@ class PropertyListing extends Component {
     }
 }
 const mapStateToProps = state => { 
-    const properties = _.map(state.properties, (value, uid) => ({ ...value, uid }));
-    console.log(properties);
-    return { properties };
+    const properties = _.map(_.omit(state.properties, 'error', 'loading'), (value, uid) => ({ ...value, uid }));
+    const { loading, error } = state.properties;
+    return { properties, loading, error };
 };
 export default connect(mapStateToProps, { propertiesFetch })(PropertyListing);
 

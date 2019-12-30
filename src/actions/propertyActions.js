@@ -7,8 +7,8 @@ import {
 
 export const propertiesFetch = () => (dispatch) => {
         dispatch({ type: PROPERTY_FETCH });
-        const { UID } = firebase.auth().currentUser.uid;
-        firebase.database().ref(`/users/${UID}/properties`)
+        const { uid } = firebase.auth().currentUser;
+        firebase.database().ref(`/users/${uid}/properties`)
             .on('value', (dataSnapshot) => {
                 dispatch({
                     type: PROPERTY_FETCH_SUCCESS,

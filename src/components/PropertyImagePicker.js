@@ -47,13 +47,13 @@ class PropertyImagePicker extends React.Component {
     }
   }
   renderButton1() {
-    if (this.props.image) {
+    if (!this.props.image) {
       return 'TAKE A PHOTO';
     }
     return 'TAKE ANOTHER';
   }
   renderButton2() {
-    if (this.props.image) {
+    if (!this.props.image) {
       return 'CHOOSE A PHOTO';
     }
     return 'CHOOSE ANOTHER';
