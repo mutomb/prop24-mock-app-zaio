@@ -2,10 +2,10 @@ import React from 'react';
 import { Router, Scene } from 'react-native-router-flux';
 import LoginForm from './components/LoginForm';
 import SignUpForm from './components/SignUpForm';
-import PropertyListing from './components/PropertyListing';
 import CreateProperty from './components/CreateProperty';
-//import EditProperty from './components/EditProperty';
+import EditProperty from './components/EditProperty';
 import PropertyImageCapturer from './components/PropertyImageCapturer';
+import Main from './components/Main';
 import { BLUE_DARK } from './components/common';
 
 const RouterComponent = () => (
@@ -28,10 +28,10 @@ const RouterComponent = () => (
         </Scene>
         <Scene
         key='main'
-        >
+        >            
             <Scene
-            key='propertyListing'
-            component={PropertyListing}
+            key='Main'
+            component={Main}
             hideNavBar
             initial
             />
@@ -45,7 +45,6 @@ const RouterComponent = () => (
             }}
             navigationBarStyle={{ backgroundColor: BLUE_DARK }}
             />
-           {/* 
             <Scene 
             key='editProperty'
            component={EditProperty}
@@ -55,7 +54,7 @@ const RouterComponent = () => (
                 color: '#fff'
             }}
             navigationBarStyle={{ backgroundColor: BLUE_DARK }}
-            />*/}
+            />
             <Scene 
             key='propertyImageCapturer'
             component={PropertyImageCapturer}

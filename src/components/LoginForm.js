@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableWithoutFeedback, ScrollView, Keyboard } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, 
+    ScrollView, Keyboard, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
+import { Bubbles } from 'react-native-loader';
+
 import { Actions } from 'react-native-router-flux';
-import { Input, Button, Card, CardSection, Header, AppLogo, Spinner, RED, BLUE } from './common';
+import { Input, Button, Card, CardSection, Header, AppLogo, RED, BLUE } from './common';
 import { userAuthFormUpdate, resetForm, signInUser } from '../actions';
 
 class LoginForm extends Component {
@@ -11,10 +14,14 @@ class LoginForm extends Component {
         props.resetForm();
         this.state = { 
             underLine: false,
-            keyboardDidShowListener: Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this)),
-            keyboardDidHideListener: Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this)),
             marginBottom: 0
         };
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this));
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this));
+    }
+    componentWillUnmount() {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
     }
     _keyboardDidShow(e) {
         this.setState({ marginBottom: e.endCoordinates.height + 100 });
@@ -42,7 +49,7 @@ class LoginForm extends Component {
     }
     renderButton() {
         if (this.props.loading) {
-            return <Spinner size="large" />;
+            return <Bubbles size={10} color={RED} />;
         }
         return (
             <Button
@@ -83,7 +90,7 @@ class LoginForm extends Component {
                         Sign in to continue
                     </Text>
                 </CardSection>
-                <CardSection style={styles.cardSection}>
+                <CardSection style={[styles.cardSection, { borderRadius: 0 }]}>
                     <Input 
                     label='Email' 
                     placeholder='user@email.com'
@@ -91,9 +98,10 @@ class LoginForm extends Component {
                         this.onChangeText({ prop: 'email', value: email })
                         )}
                     value={this.props.email}
+                    style={styles.inputStyle}
                     />
                 </CardSection>
-                <CardSection style={styles.cardSection}>
+                <CardSection style={[styles.cardSection, { borderRadius: 0 }]}>
                     <Input 
                     label='Password' 
                     placeholder='password'
@@ -102,14 +110,15 @@ class LoginForm extends Component {
                         this.onChangeText({ prop: 'password', value: password })
                         )}
                     value={this.props.password}
+                    style={styles.inputStyle}
                     />
                 </CardSection>
                     {this.renderError()}
-                <CardSection style={styles.cardSection}>
+                <CardSection style={[styles.cardSection, { borderRadius: 0 }]}>
                 {this.renderButton()}
                 </CardSection>
                 <CardSection
-                    style={[{ paddingBottom: 50 }, styles.cardSection]}
+                    style={[{ paddingBottom: 50, borderRadius: Dimensions.get('window').width / 10, borderTopLeftRadius: 0, borderTopRightRadius: 0 }, styles.cardSection]}
                 >
                     <Text style={[styles.footerTextStyle]}>
                         New user ?
@@ -163,5 +172,8 @@ const styles = {
     },   
     cardSection: {
         marginBottom: 0,
+    },
+    inputStyle: {
+        borderRadius: 10
     }
 };

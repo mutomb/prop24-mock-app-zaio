@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Text, Keyboard } from 'react-native';
+import { ScrollView, Text, View, Keyboard } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux'; 
 import { Bubbles, Bars } from 'react-native-loader';
-import { resetForm, propertyCreate } from '../actions';
+import _ from 'lodash';
+import { propertyEdit, propertyFormUpdate, resetForm } from '../actions';
 import {
-    Button, Card, CardSection, Info, Header, AppLogo,
-    BLUE_DARK, BLUE, RED, 
+     Button, Card, CardSection, Info, Header, AppLogo,
+     BLUE_DARK, BLUE, RED, 
 } from './common';
 import PropertyForm from './PropertyForm';
 
-class CreateProperty extends Component {
+class EditProperty extends Component {
     constructor(props) {
         super(props);
-        props.resetForm();
+        _.each(props.property, (value, prop) => this.props.propertyFormUpdate({ prop, value }));
         this.state = { 
             showLoadingModal: false,
             marginBottom: 0,
-        };
-        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this));
-        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this));
+            currentImg: props.property.image,
+        }
+            this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this));
+            this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this));
     }
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
@@ -28,13 +30,13 @@ class CreateProperty extends Component {
     _keyboardDidShow(e) {
         this.setState({ marginBottom: e.endCoordinates.height + 100 });
     }
-     
+        
     _keyboardDidHide() {
-        this.setState({ marginBottom: 0 });
+    this.setState({ marginBottom: 0 });
     }
-    onCreatePress() {
+    onSavePress() {
         const { name, address, image, price } = this.props;
-        this.props.propertyCreate({ name, address, price, image });
+        this.props.propertyEdit({ prevImage: this.state.currentImg, name, address, price, image, uid: this.props.property.uid }); 
         this.onLoading();
     }
     renderButtons() {
@@ -47,7 +49,7 @@ class CreateProperty extends Component {
                 >
                   <Bars size={10} color={BLUE} />
                 </CardSection>
-            ); 
+            );
         }
         return (
             <CardSection 
@@ -55,7 +57,7 @@ class CreateProperty extends Component {
              { flexDirection: 'row', marginBottom: this.state.marginBottom 
              }]
              }
-            >
+            >              
                 <Button
                 style={{ backgroundColor: BLUE }}
                 underlayColor={BLUE_DARK}
@@ -66,13 +68,13 @@ class CreateProperty extends Component {
                 <Button
                 style={{ backgroundColor: BLUE }}
                 underlayColor={BLUE_DARK}
-                onPress={this.onCreatePress.bind(this)}
+                onPress={this.onSavePress.bind(this)}
                 >
-                    CREATE
+                    SUBMIT
                 </Button>
             </CardSection>
         );
-    } 
+    }
     renderError() {
         if (this.props.error) {
             return (
@@ -121,14 +123,14 @@ class CreateProperty extends Component {
                 marginBottom: 0,
                 }}
             >
-                <PropertyForm {...this.props} />
+                <PropertyForm {...this.props} edit onLoading={this.onLoading.bind(this)} />
             </Card>
             {this.renderError()}
             {this.renderButtons()}
-            </ScrollView>
+            </ScrollView> 
             <Info visible={this.state.showLoadingModal}>
-                <Bubbles size={20} color={RED} />
-            </Info>           
+                 <Bubbles size={20} color={RED} />
+            </Info> 
             </View>     
         );
     }
@@ -137,15 +139,17 @@ const mapStateToProps = (state) => {
     const { name, address, price, image, loading, error, completed } = state.propertyForm;
     return { name, address, price, image, loading, error, completed };
 };
-export default connect(mapStateToProps, { resetForm, propertyCreate })(CreateProperty);
+export default connect(mapStateToProps, 
+    { propertyEdit, propertyFormUpdate, resetForm }
+    )(EditProperty);
 
 const styles = {
     Header: {
-         marginTop: 0, 
-         elevation: 2, 
-         borderBottomColor: 'rgba(26, 85, 164, 0.1)', 
-         borderBottomWidth: 1, 
-    },
+        marginTop: 0, 
+        elevation: 2, 
+        borderBottomColor: 'rgba(26, 85, 164, 0.1)', 
+        borderBottomWidth: 1, 
+   },
     CardSectionStyle: {
         backgroundColor: '#fff',
         marginLeft: 15,
@@ -161,7 +165,7 @@ const styles = {
         fontSize: 20,
         fontWeight: 'bold',
         fontFamily: 'sans-serif-condensed',
-    },
+    },    
     error: { 
         marginTop: 10, 
         flexDirection: 'column', 
@@ -179,3 +183,4 @@ const styles = {
         fontWeight: 'bold' 
     }
 };
+

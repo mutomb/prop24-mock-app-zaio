@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
-import { connect } from 'react-redux'; 
-import { propertyFormUpdate, resetForm } from '../actions';
+import { connect } from 'react-redux';
+import { propertyFormUpdate, propertyDelete } from '../actions';
 import {
     Input, Button, Card, CardSection, 
     BLUE_DARK, BLUE,
@@ -12,9 +12,9 @@ import PropertyImagePicker from './PropertyImagePicker';
 class PropertyForm extends Component {
     constructor(props) {
         super(props);
-        props.resetForm();
         this.state = {
-            showModal: false
+            showModal: false,
+            prevImage: this.props.image
         };
     }
 
@@ -22,24 +22,30 @@ class PropertyForm extends Component {
         this.props.propertyFormUpdate({ prop, value });
     }
 
-    deleteProperty() {
+    onDeletePress() {
         this.setState({ showModal: true });
     }
-   /* renderDeleteButton() {
-        if (this.props.propertyEdit) {
+    onAccept() {
+        const { uid } = this.props.property;
+        this.props.propertyDelete({ uid, prevImage: this.state.prevImage });
+        this.setState({ showModal: false });
+        this.props.onLoading();
+    }
+    renderDeleteButton() {
+        if (this.props.edit) {
             return (
                 <Button
-                onPress={this.deleteProperty.bind(this)}
+                onPress={this.onDeletePress.bind(this)}
                 style={{ backgroundColor: 'red' }}
                 textStyle={{ fontSize: 10 }}
-                underlayColor={BLUE_DARK}
+                underlayColor={'red'}
                 >
                 DELETE
                 </Button>
             );
         }
         return;
-    }*/
+    }
     render() {
         return (
             <View>
@@ -47,6 +53,7 @@ class PropertyForm extends Component {
                 title='Warning'
                 visible={this.state.showModal}
                 onDecline={() => this.setState({ showModal: false })}
+                onAccept={this.onAccept.bind(this)}
             >
                 Do you want to delete this property?
             </Confirm>
@@ -66,7 +73,7 @@ class PropertyForm extends Component {
                     <Text style={[styles.textStyle, { flex: 3 }]}>
                         Property Images
                     </Text>
-                    {/*this.renderDeleteButton()*/}
+                    {this.renderDeleteButton()}
                 </CardSection>
                 <CardSection style={styles.CardSectionStyle}>
                     <PropertyImagePicker image={this.props.image} />
@@ -150,4 +157,4 @@ const styles = {
     }
 };
 
-export default connect(null, { propertyFormUpdate, resetForm })(PropertyForm);
+export default connect(null, { propertyFormUpdate, propertyDelete })(PropertyForm);

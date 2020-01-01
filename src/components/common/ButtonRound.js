@@ -35,15 +35,18 @@ const styles = {
         fontWeight: '600',
     },
     buttonStyle: {
-        width: 150,
-        height: 150,
-        borderRadius: 75,
         backgroundColor: '#fff',
         alignContent: 'center',
         justifyContent: 'center',
         marginLeft: 5,
         marginRight: 5,
         elevation: 5,
+        width: 75,
+        height: 75,
+        borderRadius: 37.5,
+        position: 'absolute',                                          
+        bottom: 30,                                                    
+        right: 20
     },
     viewStyle: { 
         position: 'absolute', 

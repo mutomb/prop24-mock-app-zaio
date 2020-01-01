@@ -10,4 +10,5 @@ export * from './ButtonRound';
 export * from './Colors';
 export * from './ModalWithSpinner';
 export * from './Info';
+export * from './ButtonLogout';
 /**facilitate import of resuable components */

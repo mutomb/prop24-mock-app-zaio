@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import { Text, TouchableWithoutFeedback, Image, View } from 'react-native';
-import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import { CardSection } from './common';
 
 class ListItem extends Component {
 
     onRowPress() {
-        console.log('hi');
-      //  const { property } = this.props;
-       //Actions.propertyEdit({ property });
+      const { property } = this.props;
+      Actions.editProperty({ property });
     }
 
     render() {
         const { image, address, name, price } = this.props.property;
-        console.log(image);
         return (
             <TouchableWithoutFeedback
                 onPress={this.onRowPress.bind(this)}

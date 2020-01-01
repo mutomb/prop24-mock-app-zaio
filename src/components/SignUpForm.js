@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, View, Keyboard } from 'react-native';
+import { ScrollView, Text, View, Keyboard, Dimensions } from 'react-native';
 import { connect } from 'react-redux'; 
+import { Bubbles } from 'react-native-loader';
 import { userAuthFormUpdate, resetForm, signUpUser } from '../actions';
 import { 
-    Input, Button, Card, CardSection, Header, AppLogo, Spinner, 
+    Input, Button, Card, CardSection, Header, AppLogo, 
     RED, BLUE
 } from './common';
 
@@ -12,10 +13,14 @@ class SignUpForm extends Component {
         super(props);
         props.resetForm();
         this.state = {
-            keyboardDidShowListener: Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this)),
-            keyboardDidHideListener: Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this)),
             marginBottom: 0
         };
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this));
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this));
+    }
+    componentWillUnmount() {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
     }
     _keyboardDidShow(e) {
         this.setState({ marginBottom: e.endCoordinates.height + 100 });
@@ -33,7 +38,7 @@ class SignUpForm extends Component {
     }
     renderButton() {
         if (this.props.loading) {
-            return <Spinner size="large" />;
+            return <Bubbles size={10} color={RED} />;
         }
         return (
             <Button
@@ -74,7 +79,7 @@ class SignUpForm extends Component {
                         Sign up to get started
                     </Text>
                 </CardSection>
-                <CardSection style={styles.cardSection}>
+                <CardSection style={[styles.cardSection, { borderRadius: 0 }]}>
                     <Input 
                     label='FullName' 
                     placeholder='Billy Johnson'
@@ -83,9 +88,10 @@ class SignUpForm extends Component {
                         value: fullname
                     })}
                     value={this.props.fullname}
+                    style={styles.inputStyle}
                     />
                 </CardSection>
-                <CardSection style={styles.cardSection}>
+                <CardSection style={[styles.cardSection, { borderRadius: 0 }]}>
                     <Input 
                     label='Email' 
                     placeholder='user@email.com'
@@ -94,9 +100,10 @@ class SignUpForm extends Component {
                         value: email
                     })}
                     value={this.props.email}
+                    style={styles.inputStyle}
                     />
                 </CardSection>
-                <CardSection style={styles.cardSection}>
+                <CardSection style={[styles.cardSection, { borderRadius: 0 }]}>
                     <Input 
                     label='Password' 
                     placeholder='password'
@@ -106,9 +113,10 @@ class SignUpForm extends Component {
                         value: password
                     })}
                     value={this.props.password}
+                    style={styles.inputStyle}
                     />
                 </CardSection>
-                <CardSection style={styles.cardSection}>
+                <CardSection style={[styles.cardSection, { borderRadius: 0 }]}>
                     <Input 
                     label='Confirm Password' 
                     placeholder='password'
@@ -118,10 +126,11 @@ class SignUpForm extends Component {
                         value: password
                     })}
                     value={this.props.confirmPassword}
+                    style={styles.inputStyle}
                     />
                 </CardSection>
                 {this.renderError()}
-                <CardSection style={styles.cardSection}>
+                <CardSection style={[{ paddingBottom: 50, borderRadius: Dimensions.get('window').width / 10, borderTopLeftRadius: 0, borderTopRightRadius: 0 }, styles.cardSection]}>
                     {this.renderButton()}
                 </CardSection>
             </Card>
@@ -149,6 +158,9 @@ const styles = {
     },
     cardSection: {
         marginBottom: 0,
+    },
+    inputStyle: {
+        borderRadius: 10
     }
 };
 
