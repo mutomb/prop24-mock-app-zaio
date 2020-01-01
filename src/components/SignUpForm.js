@@ -51,15 +51,12 @@ class SignUpForm extends Component {
     renderError() {
         if (this.props.error) {
             return (
-            <Text 
-            style={{ color: RED, 
-                backgroundColor: BLUE, 
-                paddingHorizontal: 10 
-            }}
-            >
-            {this.props.error}
-            </Text>);
+            <CardSection style={[styles.CardSectionStyle, styles.error]}>
+                <Text style={styles.errorText}>{ this.props.error }</Text>
+            </CardSection>
+            );
         }
+        return;
     }
     render() {
         return (
@@ -129,7 +126,9 @@ class SignUpForm extends Component {
                     style={styles.inputStyle}
                     />
                 </CardSection>
-                {this.renderError()}
+                <CardSection style={[styles.cardSection, { borderRadius: 0 }]}>
+                    {this.renderError()}
+                </CardSection>
                 <CardSection style={[{ paddingBottom: 50, borderRadius: Dimensions.get('window').width / 10, borderTopLeftRadius: 0, borderTopRightRadius: 0 }, styles.cardSection]}>
                     {this.renderButton()}
                 </CardSection>
@@ -161,7 +160,29 @@ const styles = {
     },
     inputStyle: {
         borderRadius: 10
-    }
+    },
+    error: { 
+        marginTop: 10, 
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        width: '70%', 
+        alignSelf: 'center', 
+        fontSize: 20, 
+        backgroundColor: 'red', 
+        borderLeftWidth: 10, 
+        borderLeftColor: BLUE 
+    },
+    errorText: { 
+        flex: 1, 
+        color: '#fff', 
+        fontWeight: 'bold' 
+    },
+    CardSectionStyle: {
+        backgroundColor: BLUE,
+        marginLeft: 15,
+        marginRight: 15,
+        borderRadius: 0
+    },
 };
 
 const mapStateToProps = (state) => {

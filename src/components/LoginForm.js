@@ -62,15 +62,12 @@ class LoginForm extends Component {
     renderError() {
         if (this.props.error) {
             return (
-            <Text 
-            style={{ color: RED, 
-                backgroundColor: BLUE, 
-                paddingHorizontal: 10 
-            }}
-            >
-            {this.props.error}
-            </Text>);
+            <CardSection style={[styles.CardSectionStyle, styles.error]}>
+                <Text style={styles.errorText}>{ this.props.error }</Text>
+            </CardSection>
+            );
         }
+        return;
     }
     render() {
         return (
@@ -113,7 +110,9 @@ class LoginForm extends Component {
                     style={styles.inputStyle}
                     />
                 </CardSection>
+                <CardSection style={[styles.cardSection, { borderRadius: 0 }]}>
                     {this.renderError()}
+                </CardSection>
                 <CardSection style={[styles.cardSection, { borderRadius: 0 }]}>
                 {this.renderButton()}
                 </CardSection>
@@ -175,5 +174,27 @@ const styles = {
     },
     inputStyle: {
         borderRadius: 10
-    }
+    },
+    error: { 
+        marginTop: 10, 
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        width: '70%', 
+        alignSelf: 'center', 
+        fontSize: 20, 
+        backgroundColor: 'red', 
+        borderLeftWidth: 10, 
+        borderLeftColor: BLUE 
+    },
+    errorText: { 
+        flex: 1, 
+        color: '#fff', 
+        fontWeight: 'bold',
+    },
+    CardSectionStyle: {
+        backgroundColor: 'red',
+        marginLeft: 15,
+        marginRight: 15,
+        borderRadius: 0,
+    },
 };
