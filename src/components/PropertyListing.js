@@ -17,6 +17,7 @@ class PropertyListing extends Component {
             activeTab: 1,
         };
        this.props.propertiesFetch();
+       console.log('loaded');
     } 
     onAddPress() {
         Actions.createProperty();
@@ -116,8 +117,10 @@ class PropertyListing extends Component {
     }
 }
 const mapStateToProps = state => { 
-    const properties = _.map(_.omit(state.properties, 'error', 'loading'), (value, uid) => ({ ...value, uid }));
+    let properties = _.map(_.omit(state.properties, 'error', 'loading'), (value, uid) => ({ ...value, uid }));
+        properties = _.reverse(properties);
     const { loading, error } = state.properties;
+    console.log(properties)
     return { properties, loading, error };
 };
 export default connect(mapStateToProps, { propertiesFetch })(PropertyListing);

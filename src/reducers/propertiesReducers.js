@@ -12,7 +12,7 @@ export default (state = INITIAL_STATE, action) => {
         case PROPERTY_FETCH: 
         return { ...state, loading: true, error: '' };
         case PROPERTY_FETCH_SUCCESS:
-            return { ...state, loading: false, error: '', ...action.payload };
+            return { loading: false, error: '', ...action.payload };
         case PROPERTY_FETCH_FAIL:
             return { ...state, error: 'Error fetching data. Check connection', loading: false };
         default:

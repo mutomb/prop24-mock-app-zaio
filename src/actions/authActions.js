@@ -37,7 +37,8 @@ export const signUpUser = ({ username, email, password }) => (dispatch) => {
                         payload: { username: user.displayName }
                     });
                 })
-                .catch(() => {
+                .catch((error) => {
+                    console.log(error);
                     Actions.main();
                     dispatch({
                         type: USER_PROFILE_UPDATE_FAIL
@@ -45,6 +46,7 @@ export const signUpUser = ({ username, email, password }) => (dispatch) => {
                 });
             })
             .catch(error => {
+                console.log(error)
                 dispatch({
                     type: USER_SIGNUP_FAIL,
                 });
@@ -61,6 +63,7 @@ export const signInUser = ({ email, password }) => (dispatch) => {
             Actions.main();
         })
         .catch(err => {
+            console.log(err)
             dispatch({ type: USER_SIGNIN_FAIL });
         });
 };
@@ -74,8 +77,10 @@ export const signOutUser = () => (dispatch) => {
                 dispatch({
                     type: USER_SIGNOUT_SUCCESS
                 });
+                Actions.auth({ type: 'reset' });
             })
             .catch(error => {
+                console.log(error)    
                 dispatch({
                     type: USER_SIGNOUT_FAIL
                 });

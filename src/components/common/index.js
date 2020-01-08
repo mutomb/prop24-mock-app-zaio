@@ -11,4 +11,5 @@ export * from './Colors';
 export * from './ModalWithSpinner';
 export * from './Info';
 export * from './ButtonLogout';
+export * from './RatingModal';
 /**facilitate import of resuable components */

@@ -61,7 +61,7 @@ class EditProperty extends Component {
                 <Button
                 style={{ backgroundColor: BLUE }}
                 underlayColor={BLUE_DARK}
-                onPress={() => Actions.pop()}
+                onPress={() => Actions.main({ type: 'reset' })}
                 >
                     CANCEL
                 </Button>
