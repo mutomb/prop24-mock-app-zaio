@@ -15,14 +15,7 @@ class App extends Component {
       isAppReady: false,
     };
     const firebaseConfig = {
-      apiKey: 'AIzaSyCGfNxm6Gq3hn_nVbvgrQu08NpzlK-Kzbg',
-      authDomain: 'property24-zaio.firebaseapp.com',
-      databaseURL: 'https://property24-zaio.firebaseio.com',
-      projectId: 'property24-zaio',
-      storageBucket: 'property24-zaio.appspot.com',
-      messagingSenderId: '280579551772',
-      appId: '1:280579551772:web:61fd4dce7ab6e690b0e5d9',
-      measurementId: 'G-C3RV1VVFF1'
+     //firebase API config
     };
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
